@@ -5,7 +5,7 @@ name: Push Docker Image to DockerHub
 #      - main
 on:
   schedule:
-    - cron: '*/1 * * * *'
+    - cron: '*/5 * * * *'
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
