@@ -3,7 +3,20 @@ on:
   schedule:
     - cron: "*/5 * * * *"
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "This action runs every 5 minutes"
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build and tag Docker image
+        run: |
+          docker build -t muneebq/wandel:centos_2 .
+          docker tag  muneebq/wandel:centos_2 muneebq/wandel:${{ github.sha }}
+          docker tag  muneebq/wandel:centos_2 muneebq/wandel:latest
+      - name: Login to DockerHub
+        run: |
+          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u muneebq --password-stdin
+      - name: Push Docker image to DockerHub
+        run: |
+          docker push muneebq/wandel:${{ github.sha }}
+          docker push muneebq/wandel:latest
