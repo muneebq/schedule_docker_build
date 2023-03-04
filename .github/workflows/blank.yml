@@ -1,0 +1,22 @@
+name: Push Docker Image to DockerHub
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build and tag Docker image
+        run: |
+          docker build -t muneebq/wandel:centos_2 .
+          docker tag  muneebq/wandel:centos_2 muneebq/wandel:latest
+      - name: Login to DockerHub
+        run: |
+          echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u muneebq --password-stdin
+      - name: Push Docker image to DockerHub
+        run: |
+          docker push muneebq/wandel:centos_2
+          docker push muneebq/wandel:latest
