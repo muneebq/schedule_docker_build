@@ -11,12 +11,12 @@ jobs:
       - name: Build and tag Docker image
         run: |
           docker build -t muneebq/wandel:centos_2 .
-          docker tag  muneebq/wandel:centos_2 muneebq/wandel:$(date +"%Y-%m-%d_%H-%M-%S")
+          docker tag  muneebq/wandel:centos_2 muneebq/wandel:$(date +"%Y-%m-%d")
           docker tag  muneebq/wandel:centos_2 muneebq/wandel:latest
       - name: Login to DockerHub
         run: |
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u muneebq --password-stdin
       - name: Push Docker image to DockerHub
         run: |
-          docker push muneebq/wandel:$(date +"%Y-%m-%d_%H-%M-%S")
+          docker push muneebq/wandel:$(date +"%Y-%m-%d")
           docker push muneebq/wandel:latest
