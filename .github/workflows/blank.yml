@@ -12,11 +12,11 @@ jobs:
       - name: Build and tag Docker image
         run: |
           docker build -t muneebq/wandel:centos_2 .
-          docker tag  muneebq/wandel:centos_2 muneebq/wandel:latest
+          docker tag  muneebq/wandel:centos_2 muneebq/wandel:${{ github.sha }}
       - name: Login to DockerHub
         run: |
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u muneebq --password-stdin
       - name: Push Docker image to DockerHub
         run: |
           docker push muneebq/wandel:centos_2
-          docker push muneebq/wandel:latest
+          docker push muneebq/wandel:${{ github.sha }}
